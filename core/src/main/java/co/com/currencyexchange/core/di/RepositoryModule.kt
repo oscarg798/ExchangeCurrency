@@ -1,27 +1,35 @@
-package co.com.currencyexchange.di
+package co.com.currencyexchange.core.di
 
+import co.com.currencyexchange.data.repository.ICurrencyRepository
 import co.com.currencyexchange.data.repository.IExchangeRatesRepository
 import co.com.currencyexchange.data.repository.IRepositoryFactory
 import co.com.currencyexchange.data.repository.RepositoryFactory
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by oscarg798 on 2/21/18.
  */
-@Singleton
+@RepositoryScope
 @Module
 class RepositoryModule {
 
 
     @Provides
     fun providesRepositoryFactory(): IRepositoryFactory {
-        return RepositoryFactory()
+        return RepositoryFactory.instance
     }
 
     @Provides
     fun providesExchangeRatesRepository(repositoryFactory: IRepositoryFactory): IExchangeRatesRepository {
-        return repositoryFactory.mExchangeRatesRepository
+        return repositoryFactory.getExchangeRepository()
     }
+
+    @Provides
+    fun providesCurrencyRepository(repositoryFactory: IRepositoryFactory): ICurrencyRepository {
+        return repositoryFactory.getCurrencyRepository()
+    }
+
+
+
 }

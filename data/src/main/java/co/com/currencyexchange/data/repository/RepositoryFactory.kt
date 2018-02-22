@@ -6,7 +6,7 @@ import co.com.currencyexchange.data.di.NetworkModule
 /**
  * Created by oscarg798 on 2/21/18.
  */
-class RepositoryFactory  : IRepositoryFactory {
+class RepositoryFactory private constructor(): IRepositoryFactory {
 
 
     private val mComponent by lazy {
@@ -15,13 +15,37 @@ class RepositoryFactory  : IRepositoryFactory {
                 .build()
     }
 
-    override val mExchangeRatesRepository: IExchangeRatesRepository
-        get() {
-            val repository = ExchangeRatesRepository()
-            mComponent.inject(repository)
-            return repository
+
+    override var mExchangeRatesRepository: ExchangeRatesRepository? = null
+
+
+    override var mCurrencyRepository: CurrencyRepository? = null
+
+
+    override fun getCurrencyRepository(): ICurrencyRepository {
+        if (mCurrencyRepository === null) {
+            mCurrencyRepository = CurrencyRepository()
         }
 
+        return mCurrencyRepository!!
+    }
+
+    override fun getExchangeRepository(): IExchangeRatesRepository {
+        if (mExchangeRatesRepository === null) {
+            mExchangeRatesRepository = ExchangeRatesRepository()
+            mComponent.inject(mExchangeRatesRepository!!)
+        }
+        return mExchangeRatesRepository!!
+    }
+
+    private object Holder{
+        val instance  =   RepositoryFactory()
+    }
 
 
+    companion object {
+        val instance by lazy {
+            Holder.instance
+        }
+    }
 }
