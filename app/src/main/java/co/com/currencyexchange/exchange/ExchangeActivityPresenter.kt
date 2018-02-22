@@ -7,11 +7,13 @@ import android.widget.EditText
 import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.core.use_cases.base.ICompletableUseCase
 import co.com.currencyexchange.core.use_cases.base.IObservableUseCase
+import co.com.currencyexchange.core.use_cases.base.ISingleUseCase
 import co.com.currencyexchange.data.local.models.ExchangeConversion
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
 /**
@@ -30,6 +32,9 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
     @Inject
     lateinit var mCalculateExchangeRateUseCase: ICompletableUseCase<Double>
 
+    @Inject
+    lateinit var mGetHAsWatchedPreferenceDialogUseCase: ISingleUseCase<Boolean, Any?>
+
     private val mDisposableBag = CompositeDisposable()
 
 
@@ -38,6 +43,23 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
                 .useCaseComponent.inject(this)
     }
 
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    private fun checkIfHasTOPresentFavoriteCurrencies() {
+        val disposable = object : DisposableSingleObserver<Boolean>() {
+            override fun onSuccess(t: Boolean) {
+                if (!t) {
+                    mView?.showPreferenceDialog()
+                }
+            }
+
+            override fun onError(e: Throwable) {
+            }
+        }
+        mDisposableBag.add(disposable)
+        mGetHAsWatchedPreferenceDialogUseCase.execute(null, disposable)
+
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun subscribeToExchangeConversions() {

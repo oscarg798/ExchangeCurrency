@@ -6,4 +6,5 @@
 
     <color name="backgroundColor">#343750</color>
     <color name="cardColor">#7F81A1</color>
+    <color name="silver">#607D8B</color>
 </resources>

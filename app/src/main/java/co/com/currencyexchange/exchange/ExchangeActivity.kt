@@ -6,8 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.widget.EditText
 import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.R
+import co.com.currencyexchange.data.PREFERENCE_DIALOG_TAG
 import co.com.currencyexchange.data.local.models.Currency
 import co.com.currencyexchange.data.local.models.ExchangeConversion
+import co.com.currencyexchange.preferences.PreferenceDialogFragment
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_exchange.*
@@ -53,6 +55,19 @@ class ExchangeActivity : AppCompatActivity(), IExchangeActivityView {
             (it as ExchangeRVAdapter).addConversions(conversions)
 
         }
+    }
+
+    override fun showPreferenceDialog() {
+        val ft = fragmentManager.beginTransaction()
+        val prev = fragmentManager.findFragmentByTag(PREFERENCE_DIALOG_TAG)
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ft.addToBackStack(null)
+
+        // Create and show the dialog.
+        val newFragment = PreferenceDialogFragment.newInstance()
+        newFragment.show(ft, PREFERENCE_DIALOG_TAG)
     }
 
     override fun clearConversions() {

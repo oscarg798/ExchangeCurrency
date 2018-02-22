@@ -13,7 +13,9 @@ import co.com.currencyexchange.core.use_cases.system.SubscribeToCurrencyConversi
 import co.com.currencyexchange.core.use_cases.exchange.CalculateExchangeRateUseCase
 import co.com.currencyexchange.core.use_cases.exchange.GetExchangeRatesUseCase
 import co.com.currencyexchange.core.use_cases.preferences.GetFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.GetHasWacthedPreferenceDialogUseCase
 import co.com.currencyexchange.core.use_cases.preferences.SaveFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.SaveHasWatchedFavoriteDialog
 import co.com.currencyexchange.core.use_cases.system.CreateLocalStorageUseCase
 import co.com.currencyexchange.data.local.models.Currency
 import co.com.currencyexchange.data.local.models.ExchangeConversion
@@ -89,6 +91,20 @@ class UseCaseFactory : IUseCaseFactory {
     override val createLocalStorageUseCase: ICompletableUseCase<Context>
         get() {
             val iterator = CreateLocalStorageUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
+            mRepostoryComponent.inject(iterator)
+            return iterator
+        }
+
+    override val getHasWacthedPreferenceDialogUseCase: ISingleUseCase<Boolean, Any?>
+        get() {
+            val iterator = GetHasWacthedPreferenceDialogUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
+            mRepostoryComponent.inject(iterator)
+            return iterator
+        }
+
+    override val saveHAsWacthedFavoriteDialog: ICompletableUseCase<Boolean>
+        get() {
+            val iterator = SaveHasWatchedFavoriteDialog(Schedulers.io(), AndroidSchedulers.mainThread())
             mRepostoryComponent.inject(iterator)
             return iterator
         }

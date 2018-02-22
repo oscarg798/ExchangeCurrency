@@ -14,6 +14,8 @@ interface IExchangeActivityView : IBaseView {
     fun showConversions(conversions: List<ExchangeConversion>)
 
     fun clearConversions()
+
+    fun showPreferenceDialog()
 }
 
 

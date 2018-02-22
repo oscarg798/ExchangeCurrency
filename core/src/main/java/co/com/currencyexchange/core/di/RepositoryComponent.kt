@@ -6,7 +6,9 @@ import co.com.currencyexchange.core.use_cases.system.SubscribeToCurrencyConversi
 import co.com.currencyexchange.core.use_cases.exchange.CalculateExchangeRateUseCase
 import co.com.currencyexchange.core.use_cases.exchange.GetExchangeRatesUseCase
 import co.com.currencyexchange.core.use_cases.preferences.GetFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.GetHasWacthedPreferenceDialogUseCase
 import co.com.currencyexchange.core.use_cases.preferences.SaveFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.SaveHasWatchedFavoriteDialog
 import co.com.currencyexchange.core.use_cases.system.CreateLocalStorageUseCase
 import dagger.Component
 import javax.inject.Singleton
@@ -33,4 +35,8 @@ interface RepositoryComponent {
     fun inject(saveFavoriteCurrenciesUseCase: SaveFavoriteCurrenciesUseCase)
 
     fun inject(createLocalStorageUseCase: CreateLocalStorageUseCase)
+
+    fun inject(getHasWacthedPreferenceDialogUseCase: GetHasWacthedPreferenceDialogUseCase)
+
+    fun inject(saveHasWatchedFavoriteDialog: SaveHasWatchedFavoriteDialog)
 }

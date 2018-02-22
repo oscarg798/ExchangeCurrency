@@ -61,7 +61,7 @@ class UseCaseModule {
 
     @Provides
     @Singleton
-    fun providesCreateLocalStorageUseCase(useCaseFactory: IUseCaseFactory):ICompletableUseCase<Context>{
+    fun providesCreateLocalStorageUseCase(useCaseFactory: IUseCaseFactory): ICompletableUseCase<Context> {
         return useCaseFactory.createLocalStorageUseCase
     }
 
@@ -75,6 +75,19 @@ class UseCaseModule {
     @Singleton
     fun providesSaveFavoriteCurrenciesUseCase(useCaseFactory: IUseCaseFactory): ICompletableUseCase<List<String>> {
         return useCaseFactory.saveFavoriteCurrenciesUseCase
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesGetHAsWacthedPreferenceDialog(useCaseFactory: IUseCaseFactory): ISingleUseCase<Boolean, Any?> {
+        return useCaseFactory.getHasWacthedPreferenceDialogUseCase
+    }
+
+    @Provides
+    @Singleton
+    fun providesSaveHasWatchedPreferenceDialog(useCaseFactory: IUseCaseFactory): ICompletableUseCase<Boolean> {
+        return useCaseFactory.saveHAsWacthedFavoriteDialog
     }
 
 

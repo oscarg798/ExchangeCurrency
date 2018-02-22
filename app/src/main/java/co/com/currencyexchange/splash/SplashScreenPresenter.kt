@@ -104,21 +104,19 @@ class SplashScreenPresenter : ISplashScreenPresenter {
     }
 
     private fun getExchangeRates(currencies: List<String>) {
-        mView?.let {
-            val disposable = object : DisposableCompletableObserver() {
-                override fun onComplete() {
-                    mView?.navigateToNextActivity()
-                    mDisposableBag.remove(this)
-                }
-
-                override fun onError(e: Throwable) {
-                    mDisposableBag.remove(this)
-                    e.printStackTrace()
-                }
+        val disposable = object : DisposableCompletableObserver() {
+            override fun onComplete() {
+                mView?.navigateToNextActivity()
+                mDisposableBag.remove(this)
             }
-            mDisposableBag.add(disposable)
-            mGetExchangeRateUseCase.execute(Pair("USD", Gson().toJson(currencies)), disposable)
+
+            override fun onError(e: Throwable) {
+                mDisposableBag.remove(this)
+                e.printStackTrace()
+            }
         }
+        mDisposableBag.add(disposable)
+        mGetExchangeRateUseCase.execute(Pair("USD", Gson().toJson(currencies)), disposable)
 
 
     }
