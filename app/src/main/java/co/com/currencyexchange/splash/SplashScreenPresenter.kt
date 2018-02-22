@@ -6,7 +6,9 @@ import android.content.Context
 import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.core.use_cases.base.ICompletableUseCase
 import co.com.currencyexchange.core.use_cases.base.ISingleUseCase
+import co.com.currencyexchange.core.use_cases.preferences.GetFavoriteCurrenciesUseCase
 import co.com.currencyexchange.data.local.models.Currency
+import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
@@ -22,6 +24,12 @@ class SplashScreenPresenter : ISplashScreenPresenter {
 
     @Inject
     lateinit var mGetExchangeRateUseCase: ICompletableUseCase<Pair<String, String>>
+
+    @Inject
+    lateinit var mCreateLocalStorageUseCase: ICompletableUseCase<Context>
+
+    @Inject
+    lateinit var mGetFavoriteCurrenciesUseCase: ISingleUseCase<List<String>, Any?>
 
     override var mView: ISplashScreenView? = null
 
@@ -40,7 +48,7 @@ class SplashScreenPresenter : ISplashScreenPresenter {
             val disposable = object : DisposableSingleObserver<List<Currency>>() {
                 override fun onSuccess(t: List<Currency>) {
                     BaseApplication.getInstance().setmCurrencies(t)
-                    getExchangeRates()
+                    createLocalStorage()
                     mDisposableBag.remove(this)
                 }
 
@@ -58,20 +66,60 @@ class SplashScreenPresenter : ISplashScreenPresenter {
 
     }
 
-    private fun getExchangeRates() {
-        val disposable = object : DisposableCompletableObserver() {
-            override fun onComplete() {
-                mView?.navigateToNextActivity()
+    private fun createLocalStorage() {
+        mView?.let {
+            val disposable = object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    getFavoriteCurrencies()
+                    mDisposableBag.remove(this)
+                }
+
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                    mDisposableBag.remove(this)
+                }
+            }
+
+            mDisposableBag.add(disposable)
+            mCreateLocalStorageUseCase.execute(it.getContext(), disposable)
+        }
+
+    }
+
+    private fun getFavoriteCurrencies() {
+        val disposable = object : DisposableSingleObserver<List<String>>() {
+            override fun onSuccess(t: List<String>) {
+                getExchangeRates(t)
                 mDisposableBag.remove(this)
+
             }
 
             override fun onError(e: Throwable) {
-                mDisposableBag.remove(this)
                 e.printStackTrace()
+                mDisposableBag.remove(this)
             }
         }
         mDisposableBag.add(disposable)
-        mGetExchangeRateUseCase.execute(Pair("USD", "EUR,JPY,GBP"), disposable)
+        mGetFavoriteCurrenciesUseCase.execute(null, disposable)
+    }
+
+    private fun getExchangeRates(currencies: List<String>) {
+        mView?.let {
+            val disposable = object : DisposableCompletableObserver() {
+                override fun onComplete() {
+                    mView?.navigateToNextActivity()
+                    mDisposableBag.remove(this)
+                }
+
+                override fun onError(e: Throwable) {
+                    mDisposableBag.remove(this)
+                    e.printStackTrace()
+                }
+            }
+            mDisposableBag.add(disposable)
+            mGetExchangeRateUseCase.execute(Pair("USD", Gson().toJson(currencies)), disposable)
+        }
+
 
     }
 

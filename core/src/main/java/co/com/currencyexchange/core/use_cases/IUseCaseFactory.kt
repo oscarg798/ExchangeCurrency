@@ -18,4 +18,7 @@ interface IUseCaseFactory {
     val subscribeToEditTextChangesUseCase: IObservableUseCase<TextViewAfterTextChangeEvent, EditText>
     val subscribeToCurrencyConversionsUSeCase: IObservableUseCase<List<ExchangeConversion>, Any?>
     val calculateExchangeRateUseCase: ICompletableUseCase<Double>
+    val createLocalStorageUseCase:ICompletableUseCase<Context>
+    val getFavoriteCurrenciesUSeCase: ISingleUseCase<List<String>, Any?>
+    val saveFavoriteCurrenciesUseCase: ICompletableUseCase<List<String>>
 }

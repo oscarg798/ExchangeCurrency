@@ -1,9 +1,6 @@
 package co.com.currencyexchange.core.di
 
-import co.com.currencyexchange.data.repository.ICurrencyRepository
-import co.com.currencyexchange.data.repository.IExchangeRatesRepository
-import co.com.currencyexchange.data.repository.IRepositoryFactory
-import co.com.currencyexchange.data.repository.RepositoryFactory
+import co.com.currencyexchange.data.repository.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -33,5 +30,10 @@ class RepositoryModule {
         return repositoryFactory.getCurrencyRepository()
     }
 
+    @Provides
+    @Singleton
+    fun providesPreferenceRepository(repositoryFactory: IRepositoryFactory):IPreferencesRepository{
+        return repositoryFactory.getPreferenceRepository()
+    }
 
 }

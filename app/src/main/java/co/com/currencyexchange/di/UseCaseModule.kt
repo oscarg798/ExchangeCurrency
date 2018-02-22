@@ -59,5 +59,23 @@ class UseCaseModule {
         return useCaseFactory.calculateExchangeRateUseCase
     }
 
+    @Provides
+    @Singleton
+    fun providesCreateLocalStorageUseCase(useCaseFactory: IUseCaseFactory):ICompletableUseCase<Context>{
+        return useCaseFactory.createLocalStorageUseCase
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetFavoriteCurrenciesUseCase(useCaseFactory: IUseCaseFactory): ISingleUseCase<List<String>, Any?> {
+        return useCaseFactory.getFavoriteCurrenciesUSeCase
+    }
+
+    @Provides
+    @Singleton
+    fun providesSaveFavoriteCurrenciesUseCase(useCaseFactory: IUseCaseFactory): ICompletableUseCase<List<String>> {
+        return useCaseFactory.saveFavoriteCurrenciesUseCase
+    }
+
 
 }

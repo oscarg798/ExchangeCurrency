@@ -5,11 +5,9 @@ package co.com.currencyexchange.data.repository
  */
 interface IRepositoryFactory {
 
-    var mExchangeRatesRepository: ExchangeRatesRepository?
+    fun getExchangeRepository(): IExchangeRatesRepository
 
-    var mCurrencyRepository: CurrencyRepository?
+    fun getCurrencyRepository(): ICurrencyRepository
 
-    fun getExchangeRepository():IExchangeRatesRepository
-
-    fun getCurrencyRepository():ICurrencyRepository
+    fun getPreferenceRepository(): IPreferencesRepository
 }

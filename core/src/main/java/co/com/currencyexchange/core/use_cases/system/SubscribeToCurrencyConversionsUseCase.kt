@@ -1,4 +1,4 @@
-package co.com.currencyexchange.core.use_cases.currency
+package co.com.currencyexchange.core.use_cases.system
 
 import co.com.currencyexchange.core.use_cases.base.ObservableUseCase
 import co.com.currencyexchange.data.local.models.ExchangeConversion

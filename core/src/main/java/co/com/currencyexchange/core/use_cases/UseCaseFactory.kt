@@ -8,10 +8,13 @@ import co.com.currencyexchange.core.use_cases.base.ICompletableUseCase
 import co.com.currencyexchange.core.use_cases.base.IObservableUseCase
 import co.com.currencyexchange.core.use_cases.base.ISingleUseCase
 import co.com.currencyexchange.core.use_cases.currency.GetCurrenciesUsecase
-import co.com.currencyexchange.core.use_cases.currency.SubscribeEditTextChangesUseCase
-import co.com.currencyexchange.core.use_cases.currency.SubscribeToCurrencyConversionsUseCase
+import co.com.currencyexchange.core.use_cases.system.SubscribeEditTextChangesUseCase
+import co.com.currencyexchange.core.use_cases.system.SubscribeToCurrencyConversionsUseCase
 import co.com.currencyexchange.core.use_cases.exchange.CalculateExchangeRateUseCase
 import co.com.currencyexchange.core.use_cases.exchange.GetExchangeRatesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.GetFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.preferences.SaveFavoriteCurrenciesUseCase
+import co.com.currencyexchange.core.use_cases.system.CreateLocalStorageUseCase
 import co.com.currencyexchange.data.local.models.Currency
 import co.com.currencyexchange.data.local.models.ExchangeConversion
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent
@@ -65,6 +68,27 @@ class UseCaseFactory : IUseCaseFactory {
         get() {
             val iterator = CalculateExchangeRateUseCase(Schedulers.io(),
                     AndroidSchedulers.mainThread())
+            mRepostoryComponent.inject(iterator)
+            return iterator
+        }
+
+    override val getFavoriteCurrenciesUSeCase: ISingleUseCase<List<String>, Any?>
+        get() {
+            val iterator = GetFavoriteCurrenciesUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
+            mRepostoryComponent.inject(iterator)
+            return iterator
+        }
+
+    override val saveFavoriteCurrenciesUseCase: ICompletableUseCase<List<String>>
+        get() {
+            val iterator = SaveFavoriteCurrenciesUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
+            mRepostoryComponent.inject(iterator)
+            return iterator
+        }
+
+    override val createLocalStorageUseCase: ICompletableUseCase<Context>
+        get() {
+            val iterator = CreateLocalStorageUseCase(Schedulers.io(), AndroidSchedulers.mainThread())
             mRepostoryComponent.inject(iterator)
             return iterator
         }

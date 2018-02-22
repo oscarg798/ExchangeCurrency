@@ -1,4 +1,4 @@
-package co.com.currencyexchange.core.use_cases.currency
+package co.com.currencyexchange.core.use_cases.system
 
 import android.widget.EditText
 import co.com.currencyexchange.core.use_cases.base.ObservableUseCase
