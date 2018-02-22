@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.R
+import co.com.currencyexchange.Utils.DecimalDigitsInputFilter
 import co.com.currencyexchange.data.PREFERENCE_DIALOG_TAG
 import co.com.currencyexchange.data.local.models.Currency
 import co.com.currencyexchange.data.local.models.ExchangeConversion
@@ -33,6 +34,7 @@ class ExchangeActivity : AppCompatActivity(), IExchangeActivityView {
     override fun initComponents() {
         mRVExchanges?.setHasFixedSize(false)
         mRVExchanges?.layoutManager = LinearLayoutManager(this)
+        mETValue?.filters = arrayOf(DecimalDigitsInputFilter(1))
         Single.create<Map<String, Currency>> { emitter ->
             val map = HashMap<String, Currency>()
             BaseApplication.getInstance().getmCurrencies().forEach {

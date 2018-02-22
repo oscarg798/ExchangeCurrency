@@ -66,6 +66,17 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
 
     }
 
+
+    private fun isNumeric(str: String): Boolean {
+        try {
+            str.toDouble()
+        } catch (e: NumberFormatException) {
+            return false
+        }
+
+        return true
+    }
+
     private fun saveHasWatchedPreferenceDialog() {
         val disposable = object : DisposableCompletableObserver() {
             override fun onComplete() {
@@ -114,7 +125,7 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
 
                 override fun onNext(t: TextViewAfterTextChangeEvent) {
                     t.editable()?.let {
-                        if (TextUtils.isDigitsOnly(it) && !TextUtils.isEmpty(it)) {
+                        if (isNumeric(it.toString())) {
                             calculateExchange(it.toString().toDouble())
                         } else {
                             mView?.clearConversions()
