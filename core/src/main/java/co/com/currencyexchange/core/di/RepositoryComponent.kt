@@ -6,11 +6,12 @@ import co.com.currencyexchange.core.use_cases.currency.SubscribeToCurrencyConver
 import co.com.currencyexchange.core.use_cases.exchange.CalculateExchangeRateUseCase
 import co.com.currencyexchange.core.use_cases.exchange.GetExchangeRatesUseCase
 import dagger.Component
+import javax.inject.Singleton
 
 /**
  * Created by oscarg798 on 2/21/18.
  */
-@RepositoryScope
+@Singleton
 @Component(modules = [(RepositoryModule::class)])
 interface RepositoryComponent {
 

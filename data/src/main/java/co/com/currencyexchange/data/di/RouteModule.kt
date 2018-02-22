@@ -4,11 +4,12 @@ import co.com.currencyexchange.data.network.routes.IConvertRoute
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 /**
  * Created by oscarg798 on 2/21/18.
  */
-@RouteScope
+@Singleton
 @Module(includes = [(NetworkModule::class)])
 class RouteModule {
 

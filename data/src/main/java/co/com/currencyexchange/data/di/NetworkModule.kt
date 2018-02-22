@@ -13,11 +13,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 /**
  * Created by oscarg798 on 2/21/18.
  */
-@NetworkScope
 @Module
 class NetworkModule {
 
@@ -48,6 +48,7 @@ class NetworkModule {
                     .create()
 
     @Provides
+    @Singleton
     fun provideRetroFit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASEURL)

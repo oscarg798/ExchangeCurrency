@@ -17,38 +17,44 @@ import javax.inject.Singleton
 /**
  * Created by oscarg798 on 2/21/18.
  */
-@Singleton
 @Module
 class UseCaseModule {
 
     @Provides
+    @Singleton
     fun provideUseCaseFactory(): IUseCaseFactory {
         return UseCaseFactory()
     }
 
     @Provides
+    @Singleton
     fun providesGetCurrenciesUseCase(useCaseFactory: IUseCaseFactory): ISingleUseCase<List<Currency>, Context> {
         return useCaseFactory.getCurrenciesUsecase
     }
 
     @Provides
+    @Singleton
     fun providesGetExchangeRatesUSeCase(useCaseFactory: IUseCaseFactory): ICompletableUseCase<Pair<String, String>> {
         return useCaseFactory.getExchangeRateUseCase
     }
 
     @Provides
+    @Singleton
     fun providesSubscribeEditTextChangeUseCase(useCaseFactory: IUseCaseFactory):
             IObservableUseCase<TextViewAfterTextChangeEvent, EditText> {
         return useCaseFactory.subscribeToEditTextChangesUseCase
     }
 
     @Provides
+    @Singleton
     fun providesSubscribeToCurrencyConversionUseCase(useCaseFactory: IUseCaseFactory):
             IObservableUseCase<List<ExchangeConversion>, Any?> {
         return useCaseFactory.subscribeToCurrencyConversionsUSeCase
     }
 
+
     @Provides
+    @Singleton
     fun providesCalculateExchangeRateUseCase(useCaseFactory: IUseCaseFactory): ICompletableUseCase<Double> {
         return useCaseFactory.calculateExchangeRateUseCase
     }
