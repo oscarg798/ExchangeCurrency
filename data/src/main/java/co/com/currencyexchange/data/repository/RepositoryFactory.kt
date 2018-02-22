@@ -6,7 +6,7 @@ import co.com.currencyexchange.data.di.NetworkModule
 /**
  * Created by oscarg798 on 2/21/18.
  */
-class RepositoryFactory private constructor() : IRepositoryFactory {
+class RepositoryFactory  : IRepositoryFactory {
 
 
     private val mComponent by lazy {
@@ -23,15 +23,5 @@ class RepositoryFactory private constructor() : IRepositoryFactory {
         }
 
 
-    private object HOLDER {
 
-        val INSTACE = RepositoryFactory();
-
-    }
-
-    companion object {
-        val instance by lazy {
-            HOLDER.INSTACE
-        }
-    }
 }

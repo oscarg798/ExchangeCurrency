@@ -22,13 +22,31 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+    correctErrorTypes = true
+
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':data')
+
 }

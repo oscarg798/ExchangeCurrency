@@ -1,7 +1,7 @@
 package co.com.currencyexchange.data.network.routes
 
 import co.com.currencyexchange.data.network.models.APICurrencyResponse
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,6 +12,6 @@ interface IConvertRoute {
 
     @GET("latest")
     fun getCurrencyConvertion(@Query("base") base: String,
-                              @Query("symbols") symbols: String): Flowable<APICurrencyResponse>
+                              @Query("symbols") symbols: String): Observable<APICurrencyResponse>
 
 }
