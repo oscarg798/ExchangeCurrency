@@ -8,6 +8,7 @@ import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.core.use_cases.base.ICompletableUseCase
 import co.com.currencyexchange.core.use_cases.base.IObservableUseCase
 import co.com.currencyexchange.core.use_cases.base.ISingleUseCase
+import co.com.currencyexchange.core.use_cases.preferences.SaveHasWatchedFavoriteDialog
 import co.com.currencyexchange.data.local.models.ExchangeConversion
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent
 import io.reactivex.disposables.CompositeDisposable
@@ -35,6 +36,9 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
     @Inject
     lateinit var mGetHAsWatchedPreferenceDialogUseCase: ISingleUseCase<Boolean, Any?>
 
+    @Inject
+    lateinit var mSaveHasWatchedFavoriteDialog: ICompletableUseCase<Boolean>
+
     private val mDisposableBag = CompositeDisposable()
 
 
@@ -50,6 +54,7 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
             override fun onSuccess(t: Boolean) {
                 if (!t) {
                     mView?.showPreferenceDialog()
+                    saveHasWatchedPreferenceDialog()
                 }
             }
 
@@ -59,6 +64,22 @@ class ExchangeActivityPresenter : IExchangeActivityPresenter {
         mDisposableBag.add(disposable)
         mGetHAsWatchedPreferenceDialogUseCase.execute(null, disposable)
 
+    }
+
+    private fun saveHasWatchedPreferenceDialog() {
+        val disposable = object : DisposableCompletableObserver() {
+            override fun onComplete() {
+                mDisposableBag.remove(this)
+
+            }
+
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+                mDisposableBag.remove(this)
+            }
+        }
+        mDisposableBag.add(disposable)
+        mSaveHasWatchedFavoriteDialog.execute(true, disposable)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

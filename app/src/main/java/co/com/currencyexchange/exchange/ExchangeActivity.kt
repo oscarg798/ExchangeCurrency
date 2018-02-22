@@ -3,6 +3,8 @@ package co.com.currencyexchange.exchange
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import co.com.currencyexchange.BaseApplication
 import co.com.currencyexchange.R
@@ -68,6 +70,24 @@ class ExchangeActivity : AppCompatActivity(), IExchangeActivityView {
         // Create and show the dialog.
         val newFragment = PreferenceDialogFragment.newInstance()
         newFragment.show(ft, PREFERENCE_DIALOG_TAG)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        item?.let {
+            if (item.itemId == R.id.action_favorite_currencies) {
+                showPreferenceDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.let {
+            menuInflater.inflate(R.menu.exchange_menu, it)
+
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun clearConversions() {
