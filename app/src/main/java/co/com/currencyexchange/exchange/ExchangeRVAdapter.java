@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,11 +74,22 @@ public class ExchangeRVAdapter extends RecyclerView.Adapter<ExchangeViewHolder> 
     public void addConversions(List<ExchangeConversion> conversions) {
         mConversions.addAll(conversions);
         notifyDataSetChanged();
+        sortData();
 
     }
 
     public void clear() {
         mConversions.clear();
         notifyDataSetChanged();
+        sortData();
+    }
+
+    public void sortData() {
+        Collections.sort(mConversions, new Comparator<ExchangeConversion>() {
+            @Override
+            public int compare(ExchangeConversion o1, ExchangeConversion o2) {
+                return -Double.compare(o1.getValue(), o2.getValue());
+            }
+        });
     }
 }
