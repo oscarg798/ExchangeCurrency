@@ -35,7 +35,6 @@ class SplashScreenActivity : AppCompatActivity(), ISplashScreenView {
 
     override fun onStart() {
         super.onStart()
-
         val rotate = RotateAnimation(0f, 360f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         rotate.duration = 500
