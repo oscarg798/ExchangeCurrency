@@ -1,6 +1,8 @@
 package co.com.currencyexchange.preferences
 
+import android.app.Dialog
 import android.app.DialogFragment
+import android.content.res.Configuration
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
@@ -24,6 +26,21 @@ class PreferenceDialogFragment : DialogFragment(), IPreferenceFragmentDialogView
         (activity as? AppCompatActivity)?.lifecycle?.addObserver(mPresenter)
         mPresenter.bind(this)
         isCancelable = false
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        activity?.windowManager?.let {
+            if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                dialog.window.setLayout(activity.resources.getDimensionPixelSize(R.dimen.preference_dialog_width),
+                        it.defaultDisplay.height - 100)
+            } else {
+                dialog.window.setLayout(activity.resources.getDimensionPixelSize(R.dimen.preference_dialog_width),
+                        activity.resources.getDimensionPixelSize(R.dimen.preference_dialog_height))
+            }
+
+        }
 
     }
 
@@ -77,6 +94,7 @@ class PreferenceDialogFragment : DialogFragment(), IPreferenceFragmentDialogView
     override fun updateDone() {
         dismissAllowingStateLoss()
     }
+
     companion object {
         fun newInstance(): PreferenceDialogFragment {
             return PreferenceDialogFragment()
